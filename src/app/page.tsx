@@ -25,21 +25,33 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-[linear-gradient(180deg,#F9FAFB_0%,#E8EBEE_27%,#E0E6EB_51%,#EAEDF0_78%,#F9FAFB_100%)] p-6 font-sans text-gray-900 overflow-x-hidden">
       
-      <header className="max-w-5xl mx-auto flex justify-between items-center mb-12 pt-4 sticky top-4 z-50">
-        <h1 className="text-3xl tracking-[0.2em] uppercase font-light text-gray-800 drop-shadow-sm bg-white/40 px-6 py-2 rounded-2xl backdrop-blur-md shadow-sm border border-white/50">
+      {/* ВОЗДУШНАЯ ШАПКА */}
+      <header className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center mb-16 pt-6 sticky top-2 z-50">
+        
+        {/* Лёгкий текстовый логотип без фона */}
+        <h1 className="text-3xl tracking-[0.3em] uppercase font-light text-gray-800 mb-4 md:mb-0 drop-shadow-sm">
           L'AURA
         </h1>
+
+        {/* Нежное меню навигации */}
+        <nav className="flex gap-6 md:gap-10 text-[11px] uppercase tracking-widest font-medium text-gray-500 mb-4 md:mb-0 bg-white/40 px-8 py-3 rounded-full backdrop-blur-md border border-white/50 shadow-sm">
+          <Link href="/" className="hover:text-rose-400 transition-colors">Каталог</Link>
+          <Link href="#about" className="hover:text-rose-400 transition-colors">О нас</Link>
+          <Link href="#delivery" className="hover:text-rose-400 transition-colors">Доставка</Link>
+        </nav>
+
+        {/* Воздушная кнопка корзины */}
         <Link 
           href="/cart" 
-          className={`relative bg-white/70 backdrop-blur-md px-6 py-3 rounded-2xl shadow-sm hover:shadow-md hover:bg-white transition-all duration-300 text-sm uppercase tracking-widest font-medium text-gray-700 border border-white/50 ${addedId ? 'scale-105 shadow-rose-200' : ''}`}
+          className={`relative bg-white/60 backdrop-blur-md px-6 py-3 rounded-full shadow-sm hover:shadow-md hover:bg-white transition-all duration-300 text-[11px] uppercase tracking-widest font-bold text-gray-700 border border-white/50 ${addedId ? 'scale-105 shadow-rose-200' : ''}`}
         >
           Корзина
           {totalItems > 0 && (
             <>
               {addedId && (
-                <span className="absolute -top-2 -right-2 w-6 h-6 bg-rose-400 rounded-full animate-ping opacity-75"></span>
+                <span className="absolute -top-1 -right-1 w-5 h-5 bg-rose-400 rounded-full animate-ping opacity-75"></span>
               )}
-              <span className="absolute -top-2 -right-2 bg-rose-400 text-white text-[10px] font-bold w-6 h-6 flex items-center justify-center rounded-full shadow-sm">
+              <span className="absolute -top-1 -right-1 bg-rose-400 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full shadow-sm">
                 {totalItems}
               </span>
             </>
@@ -47,6 +59,7 @@ export default function Home() {
         </Link>
       </header>
       
+      {/* ОСТАЛЬНОЙ КОД БЕЗ ИЗМЕНЕНИЙ */}
       <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {products.map(p => (
           <div 
