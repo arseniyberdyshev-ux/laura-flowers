@@ -14,23 +14,21 @@ export default function Cart() {
     setMounted(true);
   }, []);
 
-  // УЛЬТРА-НАДЕЖНАЯ сборка товаров
-  const cartProducts = items.map((item: any) => {
-    // Ищем товар, специально превращая оба ID в строки, чтобы 1 и "1" точно совпали
+  // ЖЕСТКИЙ ФИЛЬТР: пропускаем в корзину только те товары, которые реально есть в базе
+  const cartProducts = items.reduce((acc: any[], item: any) => {
     const product = products.find(p => String(p.id) === String(item.id));
     
-    // Если нашли товар в базе - берем свежие данные. Если нет - берем то, что сохранилось в памяти
-    const safeProduct = product || item;
-    
-    return {
-      ...safeProduct,
-      // Превращаем всё в строгие числа, чтобы никогда не было "не число ₽"
-      price: Number(safeProduct.price) || 0,
-      quantity: Number(item.quantity) || 1
-    };
-  });
+    // Добавляем в чек ТОЛЬКО если товар найден
+    if (product) {
+      acc.push({
+        ...product,
+        price: Number(product.price) || 0,
+        quantity: Number(item.quantity) || 1
+      });
+    }
+    return acc;
+  }, []);
 
-  // Подсчет суммы теперь 100% безопасен
   const total = cartProducts.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -69,8 +67,8 @@ export default function Cart() {
 
   if (!mounted) return null;
 
-  // Показываем заглушку только если в корзине реально 0 товаров
-  if (items.length === 0) {
+  // Если корзина пуста или в ней только "призраки", показываем красивую заглушку
+  if (items.length === 0 || cartProducts.length === 0) {
     return (
       <div className="min-h-screen bg-[linear-gradient(180deg,#F9FAFB_0%,#E8EBEE_27%,#E0E6EB_51%,#EAEDF0_78%,#F9FAFB_100%)] flex flex-col items-center justify-center p-8 text-gray-900">
         <div className="bg-white/60 backdrop-blur-md p-12 rounded-3xl shadow-sm border border-white/50 text-center flex flex-col items-center">
