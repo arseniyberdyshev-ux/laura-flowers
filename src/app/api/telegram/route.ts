@@ -1,57 +1,59 @@
 import { NextResponse } from 'next/server';
 
-export async function POST(req: Request) {
+export async function POST(request: Request) {
   try {
-    const data = await req.json();
-    const token = process.env.TELEGRAM_BOT_TOKEN;
-    const chatId = process.env.TELEGRAM_CHAT_ID;
+    const data = await request.json();
+    const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+    const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
-    if (!token || !chatId) {
-      console.error("ОШИБКА: Ключи не найдены в .env.local");
-      return NextResponse.json({ error: 'Ключи не настроены' }, { status: 500 });
+    if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
+      throw new Error('Не настроены ключи Telegram в .env');
     }
 
-    const itemsList = data.items.map((item: any) => 
-      `• <b>${item.name}</b> (x${item.quantity}) — ${item.price * item.quantity} ₽`
+    // Собираем красивый список букетов
+    const itemsText = data.items.map((item: any) => 
+      `▫️ ${item.name} (x${item.quantity}) — ${item.price * item.quantity} ₽`
     ).join('\n');
 
-    const total = data.items.reduce((acc: number, item: any) => acc + (item.price * item.quantity), 0);
+    // Считаем итоговую сумму
+    const total = data.items.reduce((sum: number, item: any) => sum + (item.price * item.quantity), 0);
 
-    // Используем HTML-теги вместо Markdown
-    const adminMessage = `
-<b>🌸 НОВЫЙ ЗАКАЗ L'AURA 🌸</b>
+    // Формируем сообщение с HTML-разметкой
+// Формируем сообщение с HTML-разметкой
+    const message = `
+🌸 <b>НОВЫЙ ЗАКАЗ #${data.orderId || '???'}</b> 🌸
 
-<b>👤 Клиент:</b> ${data.customerName}
-<b>📞 Телефон:</b> <code>${data.phone}</code>
-<b>📍 Адрес:</b> ${data.address}
-<b>💳 Оплата:</b> ${data.paymentMethod}
+👤 <b>Имя:</b> ${data.customerName}
+📞 <b>Телефон:</b> ${data.phone}
+📍 <b>Адрес:</b> ${data.address}
+💳 <b>Оплата:</b> ${data.paymentMethod}
 
-<b>📜 Состав заказа:</b>
-${itemsList}
+💐 <b>Состав заказа:</b>
+${itemsText}
 
-<b>💰 ИТОГО: ${total} ₽</b>
-    `.trim();
+💰 <b>Итого:</b> ${total} ₽
 
-    const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+🔗 <b>УПРАВЛЕНИЕ ЗАКАЗОМ:</b>
+${data.orderUrl}
+    `;
+
+    const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        chat_id: chatId,
-        text: adminMessage,
-        parse_mode: 'HTML', // Теперь используем HTML
+        chat_id: TELEGRAM_CHAT_ID,
+        text: message,
+        parse_mode: 'HTML', // Разрешаем жирный текст и красивые ссылки
       }),
     });
 
-    // Если Telegram вернул ошибку, выведем её текст в терминал VS Code
     if (!response.ok) {
-      const errorDetail = await response.json();
-      console.error('Telegram Error Details:', errorDetail);
-      throw new Error('Telegram API error');
+      throw new Error('Ошибка при отправке в Telegram');
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('API Error:', error);
-    return NextResponse.json({ error: 'Failed' }, { status: 500 });
+    console.error('Telegram API Error:', error);
+    return NextResponse.json({ error: 'Failed to send message' }, { status: 500 });
   }
 }
