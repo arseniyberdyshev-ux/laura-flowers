@@ -107,7 +107,7 @@ export default function Home() {
         <header className="mb-8 flex flex-col md:flex-row justify-between items-center pt-2 gap-4 sticky top-4 z-50">
           <div className="bg-white/70 backdrop-blur-xl px-10 py-5 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white w-full md:w-auto flex flex-col md:flex-row justify-between items-center flex-grow gap-8 transition-all duration-500 hover:bg-white/80">
             <h1 className="font-serif text-2xl md:text-4xl tracking-[0.1em] uppercase font-medium text-gray-900 drop-shadow-sm text-center">
-              Laura Flowers
+              VIKI FLOWERS
             </h1>
             <nav className="flex gap-8 text-[10px] md:text-xs uppercase tracking-[0.15em] text-gray-500 font-semibold">
               <a href="#" className="hover:text-rose-400 transition-colors">Каталог</a>
