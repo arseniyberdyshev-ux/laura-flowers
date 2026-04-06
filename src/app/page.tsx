@@ -1,9 +1,8 @@
 'use client'
-
 import { useEffect, useState } from 'react';
-import { supabase } from '../lib/supabase'; // Правильный импорт Supabase
+import { supabase } from '../lib/supabase'; // Импортируем именно supabase, а не db!
 import Link from 'next/link';
-import { useCart } from '../store/useCart';
+// УДАЛИ ВСЕ СТРОЧКИ, ГДЕ ЕСТЬ 'firebase/firestore'
 
 export default function Home() {
   const [products, setProducts] = useState<any[]>([]);
