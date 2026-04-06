@@ -1,8 +1,10 @@
 'use client'
 
 import { useEffect, useState } from 'react';
-import { supabase } from '../../lib/supabase';
+import { supabase } from '../../lib/supabase'; // Меняем { db } на supabase
 import Link from 'next/link';
+
+// ... остальной код
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<'orders' | 'products'>('orders');

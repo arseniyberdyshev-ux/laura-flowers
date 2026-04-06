@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { useCart } from '../../store/useCart';
-import { supabase } from '../../lib/supabase';
+import { supabase } from '../../lib/supabase'; // Меняем { db } на supabase
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+
+// ... остальной код
 
 export default function Cart() {
   const { items, removeItem, clearCart } = useCart();
