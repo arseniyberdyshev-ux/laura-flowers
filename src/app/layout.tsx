@@ -2,7 +2,7 @@
 import './globals.css';
 
 export const metadata = {
-  title: "L'AURA FLOWERS | Премиальная доставка",
+  title: "Viki Flowers | Премиальная доставка",
   description: "Доставка премиальных букетов",
 };
 
