@@ -215,7 +215,7 @@ export default function Home() {
         <footer className="mt-16 mb-8 bg-white/50 backdrop-blur-xl rounded-[3rem] p-10 md:p-16 border border-white shadow-[0_8px_30px_rgb(0,0,0,0.02)]">
            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
               <div>
-                 <h3 className="font-serif text-3xl text-gray-900 mb-4 tracking-wide">Laura Flowers</h3>
+                 <h3 className="font-serif text-3xl text-gray-900 mb-4 tracking-wide">VIKI FLOWERS</h3>
                  <p className="text-sm text-gray-500 leading-relaxed font-light">Студия премиальной флористики.</p>
               </div>
            </div>
