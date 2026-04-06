@@ -1,11 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react';
-import { supabase } from '../lib/supabase'; // Импортируем supabase (не db!)
-import { useCart } from '../store/useCart'; // ВОТ ЭТОГО НЕ ХВАТАЛО
+import { supabase } from '../lib/supabase';
+import { useCart } from '../store/useCart';
 import Link from 'next/link';
-
-// ... остальной код
 
 export default function Home() {
   const [products, setProducts] = useState<any[]>([]);
@@ -33,7 +31,6 @@ export default function Home() {
     }
   }, [selectedProduct]);
 
-  // Запрашиваем товары из Supabase
   const fetchProducts = async () => {
     try {
       const { data, error } = await supabase
@@ -50,7 +47,6 @@ export default function Home() {
     }
   };
 
-  // Запрашиваем отзывы из Supabase
   const fetchReviews = async () => {
     try {
       const { data, error } = await supabase
