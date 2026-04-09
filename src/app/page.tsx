@@ -130,27 +130,32 @@ export default function Home() {
           </div>
         </header>
 
-        {/* Обновленный блок постера для лучшего отображения на мобильных */}
-        <section className="relative w-full min-h-[300px] h-[40vh] md:h-[50vh] rounded-[3rem] overflow-hidden mb-16 shadow-[0_20px_50px_rgba(0,0,0,0.1)] animate-fade-in-up border border-white/20 bg-gray-100">
-          <img
-            src="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?q=80&w=1000&auto=format&fit=crop"
-            alt="Premium Flowers"
-            className="w-full h-full object-cover object-center absolute inset-0"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/50" />
+        {/* ГАРАНТИРОВАННО РАБОЧИЙ БАННЕР ДЛЯ МОБИЛОК И КОМПА */}
+<section className="relative w-full rounded-[3rem] overflow-hidden mb-16 shadow-[0_20px_50px_rgba(0,0,0,0.15)] animate-fade-in-up border border-white/20 bg-gray-200">
+  <div className="relative w-full h-[450px] md:h-[60vh] min-h-[400px]">
+    <img
+  src="/banner.jpg" // ТЕПЕРЬ ОНА ГРУЗИТСЯ ПРЯМО С ТВОЕГО САЙТА
+  alt="Premium Flowers"
+  className="absolute inset-0 w-full h-full object-cover object-center scale-105 md:scale-100 transition-transform duration-1000"
+/>
+    
+    {/* Затемнение для читаемости текста */}
+    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent md:bg-black/20" />
 
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-6 md:p-8">
-            <div className="bg-white/10 backdrop-blur-md p-6 md:p-12 rounded-[3rem] border border-white/30 shadow-2xl">
-              <h2 className="font-serif text-2xl md:text-5xl mb-3 font-medium tracking-wide leading-tight drop-shadow-md">
-                Искусство в каждом лепестке
-              </h2>
-              <div className="w-12 h-[2px] bg-white mx-auto mb-4" />
-              <p className="text-[9px] md:text-[11px] tracking-[0.3em] uppercase font-bold opacity-100 drop-shadow-sm">
-                Студия премиальной флористики
-              </p>
-            </div>
-          </div>
-        </section>
+    {/* Контент баннера */}
+    <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-6 md:p-12">
+      <div className="bg-white/10 backdrop-blur-md p-8 md:p-16 rounded-[3.5rem] border border-white/30 shadow-2xl max-w-[90%] md:max-w-none">
+        <h2 className="font-serif text-3xl md:text-6xl mb-4 font-medium tracking-wide leading-tight drop-shadow-lg">
+          Искусство в каждом <br className="md:hidden" /> лепестке
+        </h2>
+        <div className="w-16 h-[1px] bg-white/60 mx-auto mb-6" />
+        <p className="text-[10px] md:text-[12px] tracking-[0.4em] uppercase font-bold opacity-100 drop-shadow-md">
+          Студия премиальной флористики
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
 
         {!loading && categories.length > 1 && (
           <div className="flex flex-wrap gap-3 mb-12 justify-center animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
