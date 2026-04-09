@@ -75,6 +75,11 @@ export default function Home() {
     setTimeout(() => setIsCartBumping(false), 300);
     setShowCartTooltip(true);
     setTimeout(() => setShowCartTooltip(false), 2000);
+    
+    // Плавное закрытие модалки после добавления
+    if (selectedProduct && selectedProduct.id === product.id) {
+      setTimeout(() => setSelectedProduct(null), 800);
+    }
   };
 
   return (
@@ -123,11 +128,11 @@ export default function Home() {
           </Link>
         </header>
 
-        {/* ГЛАВНЫЙ БАННЕР - ИСПРАВЛЕННЫЙ */}
+        {/* ГЛАВНЫЙ БАННЕР */}
         <section className="relative w-full rounded-[3rem] overflow-hidden mb-16 shadow-[0_20px_50px_rgba(0,0,0,0.15)] animate-fade-in-up border border-white/20 bg-gray-200">
           <div className="relative w-full h-[450px] md:h-[60vh] min-h-[400px]">
             <img
-              src="/banner.jpg?v=2" 
+              src="/banner.jpg" 
               alt="Premium Flowers Banner"
               className="absolute inset-0 w-full h-full object-cover object-center"
               referrerPolicy="no-referrer"
@@ -184,6 +189,10 @@ export default function Home() {
                     alt={product.name} 
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      // ЗАЩИТА: Если чужой сайт заблокировал картинку, ставим красивую заглушку
+                      e.currentTarget.src = '/banner.jpg';
+                    }}
                   />
                   {product.category && (
                     <span className="absolute top-4 left-4 bg-white/95 backdrop-blur-md text-gray-900 text-[9px] uppercase tracking-widest px-4 py-2 rounded-2xl font-bold shadow-md">
@@ -223,7 +232,15 @@ export default function Home() {
           <div className="bg-white/95 backdrop-blur-2xl rounded-[3rem] w-full max-w-5xl overflow-hidden shadow-2xl flex flex-col md:flex-row relative border border-white" onClick={e => e.stopPropagation()}>
             <button onClick={() => setSelectedProduct(null)} className="absolute top-6 right-6 z-10 bg-white/90 hover:bg-gray-900 hover:text-white text-gray-900 w-12 h-12 rounded-full flex items-center justify-center transition-all shadow-md text-xl">✕</button>
             <div className="w-full md:w-1/2 h-72 md:h-auto relative p-3">
-              <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover rounded-[2.5rem]" referrerPolicy="no-referrer" />
+              <img 
+                src={selectedProduct.image} 
+                alt={selectedProduct.name} 
+                className="w-full h-full object-cover rounded-[2.5rem]" 
+                referrerPolicy="no-referrer"
+                onError={(e) => {
+                  e.currentTarget.src = '/banner.jpg';
+                }} 
+              />
             </div>
             <div className="w-full md:w-1/2 p-8 md:p-14 flex flex-col">
               <span className="text-[10px] uppercase tracking-[0.2em] text-rose-500 font-bold mb-4">{selectedProduct.category || 'Премиум коллекция'}</span>
