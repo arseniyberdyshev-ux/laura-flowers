@@ -75,9 +75,6 @@ export default function Home() {
     setTimeout(() => setIsCartBumping(false), 300);
     setShowCartTooltip(true);
     setTimeout(() => setShowCartTooltip(false), 2000);
-    if (selectedProduct) {
-      setTimeout(() => setSelectedProduct(null), 1200);
-    }
   };
 
   return (
@@ -88,21 +85,21 @@ export default function Home() {
         .font-serif { font-family: 'Cormorant Garamond', serif; }
         .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; opacity: 0; transform: translateY(30px); }
         @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
       `}} />
 
+      {/* Декоративные фоновые пятна */}
       <div className="fixed inset-0 pointer-events-none -z-10">
-        <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-rose-100/40 rounded-full blur-[120px] mix-blend-multiply opacity-70"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-indigo-50/60 rounded-full blur-[120px] mix-blend-multiply opacity-70"></div>
-        <div className="absolute top-[20%] left-[60%] w-[30vw] h-[30vw] bg-pink-50/60 rounded-full blur-[100px] mix-blend-multiply opacity-50 animate-pulse"></div>
+        <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-rose-100/40 rounded-full blur-[120px] opacity-70"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-indigo-50/60 rounded-full blur-[120px] opacity-70"></div>
       </div>
 
       <div className="max-w-6xl mx-auto relative z-10">
 
         <header className="mb-8 flex flex-col md:flex-row justify-between items-center pt-2 gap-4 sticky top-4 z-50">
-          <div className="bg-white/80 backdrop-blur-xl px-10 py-5 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-white w-full md:w-auto flex flex-col md:flex-row justify-between items-center flex-grow gap-8 transition-all duration-500 hover:bg-white/95">
-            <h1 className="font-serif text-2xl md:text-4xl tracking-[0.1em] uppercase font-medium text-gray-900 drop-shadow-sm text-center">
+          <div className="bg-white/80 backdrop-blur-xl px-10 py-5 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-white w-full md:w-auto flex flex-col md:flex-row justify-between items-center flex-grow gap-8">
+            <h1 className="font-serif text-2xl md:text-4xl tracking-[0.1em] uppercase font-medium text-gray-900">
               VIKI FLOWERS
             </h1>
             <nav className="flex gap-8 text-[10px] md:text-xs uppercase tracking-[0.15em] text-gray-600 font-bold">
@@ -112,58 +109,52 @@ export default function Home() {
             </nav>
           </div>
 
-          <div className="relative">
-            <Link
-              href="/cart"
-              className={`relative bg-white/80 backdrop-blur-xl p-5 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300 border border-white group flex-shrink-0 z-50 flex items-center justify-center
-              ${isCartBumping ? 'scale-110 shadow-rose-200/50 border-rose-100 bg-white' : 'hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:bg-white hover:-translate-y-1'}`}
-            >
-              <span className={`text-2xl inline-block transition-transform duration-300 ${isCartBumping ? 'scale-125 rotate-12' : 'group-hover:scale-110'}`}>
-                🛒
+          <Link
+            href="/cart"
+            className={`relative bg-white/80 backdrop-blur-xl p-5 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300 border border-white group flex items-center justify-center
+            ${isCartBumping ? 'scale-110 border-rose-100' : 'hover:-translate-y-1'}`}
+          >
+            <span className="text-2xl">🛒</span>
+            {totalItems > 0 && (
+              <span className="absolute -top-2 -right-2 bg-rose-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full border-2 border-white">
+                {totalItems}
               </span>
-              {totalItems > 0 && (
-                <span className={`absolute -top-2 -right-2 bg-rose-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-lg border-2 border-white transition-transform duration-300 ${isCartBumping ? 'scale-125' : 'animate-fade-in'}`}>
-                  {totalItems}
-                </span>
-              )}
-            </Link>
-          </div>
+            )}
+          </Link>
         </header>
 
-        {/* ГАРАНТИРОВАННО РАБОЧИЙ БАННЕР ДЛЯ МОБИЛОК И КОМПА */}
-<section className="relative w-full rounded-[3rem] overflow-hidden mb-16 shadow-[0_20px_50px_rgba(0,0,0,0.15)] animate-fade-in-up border border-white/20 bg-gray-200">
-  <div className="relative w-full h-[450px] md:h-[60vh] min-h-[400px]">
-    <img
-  src="/banner.jpg" // ТЕПЕРЬ ОНА ГРУЗИТСЯ ПРЯМО С ТВОЕГО САЙТА
-  alt="Premium Flowers"
-  className="absolute inset-0 w-full h-full object-cover object-center scale-105 md:scale-100 transition-transform duration-1000"
-/>
-    
-    {/* Затемнение для читаемости текста */}
-    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent md:bg-black/20" />
+        {/* ГЛАВНЫЙ БАННЕР - ИСПРАВЛЕННЫЙ */}
+        <section className="relative w-full rounded-[3rem] overflow-hidden mb-16 shadow-[0_20px_50px_rgba(0,0,0,0.15)] animate-fade-in-up border border-white/20 bg-gray-200">
+          <div className="relative w-full h-[450px] md:h-[60vh] min-h-[400px]">
+            <img
+              src="/banner.jpg?v=2" 
+              alt="Premium Flowers Banner"
+              className="absolute inset-0 w-full h-full object-cover object-center"
+              referrerPolicy="no-referrer"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-6">
+              <div className="bg-white/10 backdrop-blur-md p-8 md:p-16 rounded-[3.5rem] border border-white/30 shadow-2xl">
+                <h2 className="font-serif text-3xl md:text-6xl mb-4 font-medium tracking-wide leading-tight">
+                  Искусство в каждом <br className="md:hidden" /> лепестке
+                </h2>
+                <div className="w-16 h-[1px] bg-white/60 mx-auto mb-6" />
+                <p className="text-[10px] md:text-[12px] tracking-[0.4em] uppercase font-bold">
+                  Студия премиальной флористики
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
 
-    {/* Контент баннера */}
-    <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-6 md:p-12">
-      <div className="bg-white/10 backdrop-blur-md p-8 md:p-16 rounded-[3.5rem] border border-white/30 shadow-2xl max-w-[90%] md:max-w-none">
-        <h2 className="font-serif text-3xl md:text-6xl mb-4 font-medium tracking-wide leading-tight drop-shadow-lg">
-          Искусство в каждом <br className="md:hidden" /> лепестке
-        </h2>
-        <div className="w-16 h-[1px] bg-white/60 mx-auto mb-6" />
-        <p className="text-[10px] md:text-[12px] tracking-[0.4em] uppercase font-bold opacity-100 drop-shadow-md">
-          Студия премиальной флористики
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
+        {/* Категории */}
         {!loading && categories.length > 1 && (
           <div className="flex flex-wrap gap-3 mb-12 justify-center animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             {categories.map(category => (
               <button
                 key={category as string}
                 onClick={() => setSelectedCategory(category as string)}
-                className={`px-7 py-3 rounded-full text-[10px] md:text-xs uppercase tracking-[0.15em] font-bold transition-all duration-300 backdrop-blur-md shadow-sm ${selectedCategory === category ? 'bg-gray-900 text-white shadow-lg shadow-gray-900/30 scale-105' : 'bg-white/80 text-gray-700 border border-gray-100 hover:bg-white hover:text-gray-900 hover:shadow-md hover:-translate-y-1'}`}
+                className={`px-7 py-3 rounded-full text-[10px] md:text-xs uppercase tracking-[0.15em] font-bold transition-all duration-300 ${selectedCategory === category ? 'bg-gray-900 text-white scale-105 shadow-lg' : 'bg-white/80 text-gray-700 border border-gray-100 hover:-translate-y-1'}`}
               >
                 {category as string}
               </button>
@@ -171,38 +162,42 @@ export default function Home() {
           </div>
         )}
 
+        {/* Сетка товаров */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
           {loading ? (
             Array(6).fill(0).map((_, i) => (
-              <div key={i} className="bg-white/40 backdrop-blur-xl rounded-[2.5rem] h-[450px] animate-pulse border border-white shadow-sm flex flex-col p-3">
+              <div key={i} className="bg-white/40 backdrop-blur-xl rounded-[2.5rem] h-[450px] animate-pulse border border-white p-3">
                 <div className="w-full h-80 bg-gray-200/50 rounded-[2rem]"></div>
-                <div className="p-6 space-y-4 mt-auto">
-                  <div className="h-6 bg-gray-200/50 rounded-full w-3/4"></div>
-                  <div className="h-8 bg-gray-200/50 rounded-full w-1/3"></div>
-                </div>
               </div>
             ))
           ) : (
             filteredProducts.map((product, index) => (
               <div
                 key={product.id}
-                className="bg-white/80 backdrop-blur-xl rounded-[2.5rem] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-white hover:shadow-[0_20px_40px_rgb(0,0,0,0.12)] hover:bg-white transition-all duration-500 group flex flex-col hover:-translate-y-2 cursor-pointer animate-fade-in-up"
+                className="bg-white/80 backdrop-blur-xl rounded-[2.5rem] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-white hover:shadow-[0_20px_40px_rgb(0,0,0,0.12)] transition-all duration-500 group flex flex-col hover:-translate-y-2 cursor-pointer animate-fade-in-up"
                 style={{ animationDelay: `${0.1 + (index * 0.05)}s` }}
                 onClick={() => setSelectedProduct(product)}
               >
                 <div className="h-80 md:h-96 overflow-hidden relative m-3 rounded-[2rem] bg-gray-100">
-                  <img src={product.image} alt={product.name} loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out" />
-                  {product.category && <span className="absolute top-4 left-4 bg-white/95 backdrop-blur-md text-gray-900 text-[9px] uppercase tracking-widest px-4 py-2 rounded-2xl font-bold shadow-md">{product.category}</span>}
+                  <img 
+                    src={product.image} 
+                    alt={product.name} 
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    referrerPolicy="no-referrer"
+                  />
+                  {product.category && (
+                    <span className="absolute top-4 left-4 bg-white/95 backdrop-blur-md text-gray-900 text-[9px] uppercase tracking-widest px-4 py-2 rounded-2xl font-bold shadow-md">
+                      {product.category}
+                    </span>
+                  )}
                 </div>
                 <div className="p-6 pt-4 flex flex-col flex-grow">
                   <h2 className="font-serif text-2xl text-gray-900 mb-2 leading-snug font-medium">{product.name}</h2>
                   <div className="mt-auto flex justify-between items-end pt-4">
-                    <p className="text-xl md:text-2xl font-semibold text-gray-900 tracking-tight">{product.price.toLocaleString('ru-RU')} ₽</p>
+                    <p className="text-xl md:text-2xl font-semibold text-gray-900">{product.price.toLocaleString('ru-RU')} ₽</p>
                     <button
                       onClick={(e) => handleAddToCart(product, e)}
-                      className={`w-12 h-12 rounded-2xl flex items-center justify-center text-xl transition-all duration-300 active:scale-90 shadow-md
-                        ${addedProductId === product.id ? 'bg-emerald-500 text-white shadow-emerald-500/40' : 'bg-gray-900 text-white hover:bg-rose-500 hover:shadow-rose-500/30'}
-                      `}
+                      className={`w-12 h-12 rounded-2xl flex items-center justify-center text-xl transition-all duration-300 ${addedProductId === product.id ? 'bg-emerald-500 text-white' : 'bg-gray-900 text-white hover:bg-rose-500'}`}
                     >
                       {addedProductId === product.id ? '✓' : '+'}
                     </button>
@@ -213,29 +208,31 @@ export default function Home() {
           )}
         </div>
 
-        <footer className="mt-16 mb-8 bg-white/80 backdrop-blur-xl rounded-[3rem] p-10 md:p-16 border border-white shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
-              <div>
-                 <h3 className="font-serif text-3xl text-gray-900 mb-4 tracking-wide font-medium">VIKI FLOWERS</h3>
-                 <p className="text-sm text-gray-600 leading-relaxed font-light">Студия премиальной флористики.</p>
-              </div>
+        {/* Футер */}
+        <footer className="mt-16 mb-8 bg-white/80 backdrop-blur-xl rounded-[3rem] p-10 border border-white shadow-sm">
+           <div className="text-center">
+              <h3 className="font-serif text-3xl text-gray-900 mb-2">VIKI FLOWERS</h3>
+              <p className="text-sm text-gray-600 font-light">Студия премиальной флористики</p>
            </div>
         </footer>
       </div>
 
+      {/* Модалка товара */}
       {selectedProduct && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8 bg-black/40 backdrop-blur-md transition-opacity animate-fade-in" onClick={() => setSelectedProduct(null)}>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-md animate-fade-in" onClick={() => setSelectedProduct(null)}>
           <div className="bg-white/95 backdrop-blur-2xl rounded-[3rem] w-full max-w-5xl overflow-hidden shadow-2xl flex flex-col md:flex-row relative border border-white" onClick={e => e.stopPropagation()}>
-            <button onClick={() => setSelectedProduct(null)} className="absolute top-6 right-6 z-10 bg-white/90 hover:bg-gray-900 hover:text-white text-gray-900 w-12 h-12 rounded-full flex items-center justify-center transition-all shadow-md backdrop-blur-md text-xl">✕</button>
-            <div className="w-full md:w-1/2 h-72 md:h-auto relative p-3"><img src={selectedProduct.image} alt={selectedProduct.name} loading="lazy" className="w-full h-full object-cover rounded-[2.5rem]" /></div>
+            <button onClick={() => setSelectedProduct(null)} className="absolute top-6 right-6 z-10 bg-white/90 hover:bg-gray-900 hover:text-white text-gray-900 w-12 h-12 rounded-full flex items-center justify-center transition-all shadow-md text-xl">✕</button>
+            <div className="w-full md:w-1/2 h-72 md:h-auto relative p-3">
+              <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover rounded-[2.5rem]" referrerPolicy="no-referrer" />
+            </div>
             <div className="w-full md:w-1/2 p-8 md:p-14 flex flex-col">
               <span className="text-[10px] uppercase tracking-[0.2em] text-rose-500 font-bold mb-4">{selectedProduct.category || 'Премиум коллекция'}</span>
-              <h2 className="font-serif text-3xl md:text-5xl text-gray-900 mb-6 leading-tight font-medium">{selectedProduct.name}</h2>
+              <h2 className="font-serif text-3xl md:text-5xl text-gray-900 mb-6 font-medium">{selectedProduct.name}</h2>
               <div className="flex items-center justify-between mt-auto pt-6">
-                <p className="text-3xl md:text-4xl font-semibold text-gray-900 tracking-tight">{selectedProduct.price.toLocaleString('ru-RU')} ₽</p>
+                <p className="text-3xl md:text-4xl font-semibold text-gray-900">{selectedProduct.price.toLocaleString('ru-RU')} ₽</p>
                 <button
                   onClick={() => handleAddToCart(selectedProduct)}
-                  className={`px-8 md:px-10 py-4 md:py-5 rounded-2xl uppercase tracking-[0.15em] text-[10px] md:text-xs font-bold transition-all shadow-xl active:scale-95 bg-gray-900 text-white hover:bg-rose-500`}
+                  className="px-10 py-5 rounded-2xl uppercase tracking-[0.15em] text-[10px] font-bold transition-all bg-gray-900 text-white hover:bg-rose-500 shadow-xl"
                 >
                   В корзину
                 </button>
